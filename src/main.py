@@ -1,3 +1,5 @@
+import os
+
 import uvicorn
 from fastapi import Depends, FastAPI
 from routes import (
@@ -17,7 +19,7 @@ from auth.security import authorization_scheme
 from db.db import create_db_and_tables
 from middlewares.auth import AuthMiddleware
 
-app = FastAPI()
+app = FastAPI(root_path=os.getenv("ROOT_PATH", ""))
 
 app.title = "Vocabulary MS"
 app.version = "1.0.0"
