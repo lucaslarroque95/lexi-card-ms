@@ -10,4 +10,6 @@ COPY src/ ./src/
 RUN useradd --create-home appuser
 USER appuser
 
+EXPOSE 8000
+
 CMD ["python", "src/main.py"]
