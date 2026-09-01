@@ -18,7 +18,11 @@ PUBLIC_PATHS = {
 
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable]):
-        if request.url.path in PUBLIC_PATHS:
+        root_path = request.scope.get("root_path", "")
+        path = request.url.path
+        if root_path and path.startswith(root_path):
+            path = path[len(root_path):] or "/"
+        if path in PUBLIC_PATHS:
             return await call_next(request)
 
         token = request.headers.get("Authorization")
